@@ -56,7 +56,7 @@ ROOT_URLCONF = 'FinalProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '/SentimentAnalysis/templates')],
+        #'DIRS': [os.path.join(BASE_DIR, '/SentimentAnalysis/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
