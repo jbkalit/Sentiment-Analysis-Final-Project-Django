@@ -1,7 +1,12 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+ <style type="text/css">
+   .table-condensed{
+  font-size: 12px;
+}
+ </style>
+ <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -28,7 +33,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about">Analyze Tweets</a>
+              <a class="nav-link js-scroll-trigger" href="#upload">Analyze Tweets</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#preprocessing">Preprocessing</a>
@@ -50,10 +55,9 @@
       </div>
     </nav>
     
-    <section id="about">
+    <section id="upload">
       <br></br>
       <br></br>
-    
       <div class="container">
         <div class="row">
          <div class="col-lg-12 mx-auto" style="text-align:center;">
@@ -68,7 +72,7 @@
           </div> 
 
           <br></br>
-            <table class="table table-sm bordered">
+            <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
                     <td><strong>Tweet</strong></td>
@@ -90,79 +94,408 @@
       <br></br>
     </section>
 
-    <section id="preprocessing">
-    <div class="container">
-    <div class="col-lg-12 mx-auto" style="text-align:center;">
-         
-      <br></br>
-      <br></br>
-      <br></br>
+<!--////////////////////////////-->
 
+    <section id="preprocessing">
+   
+    <div class="container">
+    <div class="row">
+    <div class="col-lg-12 mx-auto" style="text-align:center;">
+     <h2>Preprocessing</h2>
       
   <div class="accordion" id="accordionExample">
   <div class="card">
-    <div class="card-header" id="headingOne">
+    <div class="card-header" id="heading1">
       <h5 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Remove Duplicate
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+          Lowercase
         </button>
       </h5>
     </div>
 
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#accordionExample">
       <div class="card-body">
+
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in lowercase %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
         
       </div>
     </div>
   </div>
   <div class="card">
-    <div class="card-header" id="headingTwo">
+    <div class="card-header" id="heading2">
       <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+          Remove Number
+        </button>
+      </h5>
+    </div>
+    <div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in removeNumber %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading3">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+          Remove URL
+        </button>
+      </h5>
+    </div>
+    <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in removeUrl %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+    </div>
+      <div class="card">
+    <div class="card-header" id="heading4">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+          Remove RT
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExample">
+      <div class="card-body">
+
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in removeRT %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+        
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading5">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+          Remove @
+        </button>
+      </h5>
+    </div>
+    <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in removeAt %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading6">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+          Remove Bad Character
+        </button>
+      </h5>
+    </div>
+    <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in removeBadChar %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+    </div>
+      <div class="card">
+    <div class="card-header" id="heading7">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+          Punctuation
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#accordionExample">
+      <div class="card-body">
+
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in punctuation %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+        
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading8">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
           Normalization
         </button>
       </h5>
     </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+    <div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#accordionExample">
       <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in normalization %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="heading9">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+          Remove Stopword
+        </button>
+      </h5>
+    </div>
+    <div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in removeStopwords %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+    </div>
+      <div class="card">
+    <div class="card-header" id="heading10">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+          Stemming
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#accordionExample">
+      <div class="card-body">
+
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in stemming %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
         
       </div>
     </div>
   </div>
   <div class="card">
-    <div class="card-header" id="headingThree">
+    <div class="card-header" id="heading11">
       <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Stemming
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
+          Remove Duplicate
         </button>
       </h5>
     </div>
-    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+    <div id="collapse11" class="collapse" aria-labelledby="heading11" data-parent="#accordionExample">
       <div class="card-body">
         
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in removeDuplicate %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
       </div>
     </div>
   </div>
-</div>
+  <div class="card">
+    <div class="card-header" id="heading12">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
+          NER
+        </button>
+      </h5>
+    </div>
+    <div id="collapse12" class="collapse" aria-labelledby="heading12" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in tweets %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
 
-
-      <br></br>
-      <br></br>
-      <br></br>
+      </div>
     </div>
     </div>
+    </div>
+    </div>
+    </div>
+     <br></br>
     </section>
 
-     <section id="classification">
-      <br></br>
-      <br></br>
-      <br></br>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto" style="text-align:center;">
-            <h2>Classification</h2>
+
+<!--////////////////////////////-->
+
+    <section id="classification">
+    <div class="container">
+    <div class="row">
+    <div class="col-lg-12 mx-auto" style="text-align:center;">
+      <h2>Classification</h2>
             
-            <table class="table table-sm bordered">
+            <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
                     <td><strong>Tweet</strong></td>
@@ -187,15 +520,10 @@
           </div>
         </div>
       </div>
-      <br></br>
-      <br></br>
-      <br></br>
+     <br></br>
     </section>
 
-     <section id="evaluation">
-      <br></br>
-      <br></br>
-      <br></br>
+    <section id="evaluation">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto" style="text-align:center;">
@@ -205,15 +533,10 @@
           </div>
         </div>
       </div>
-      <br></br>
-      <br></br>
-      <br></br>
+       <br></br>
     </section>
 
      <section id="class">
-      <br></br>
-      <br></br>
-      <br></br>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto" style="text-align:center;">
@@ -223,15 +546,10 @@
           </div>
         </div>
       </div>
-      <br></br>
-      <br></br>
-      <br></br>
+       <br></br>
     </section>
 
     <section id="contact">
-      <br></br>
-      <br></br>
-      <br></br>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto" style="text-align:center;">
@@ -241,9 +559,7 @@
           </div>
         </div>
       </div>
-      <br></br>
-      <br></br>
-      <br></br>
+       <br></br>
     </section>
 
     <!-- Footer -->
