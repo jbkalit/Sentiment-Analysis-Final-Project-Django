@@ -9,89 +9,100 @@ import cPickle as pickle
 from nltk.corpus import stopwords
 import os
 import re
+import pkg_resources
+import itertools
+from sklearn.externals import joblib
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.metrics import accuracy_score
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot
+import matplotlib.pyplot as plt
+import numpy as np
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 
 
-consumerKey = "aOeKsPYiHaNogKz839cOjNcrw"
-consumerSecret = "7iVB2Wrmx5HgaDpKvEpQuOvSHSEbQvLPDRYlFBLWwLU3iQN8uh"
-accessToken = "456738617-OdAQgKaDCsMpv3V2Ky20lhiphIqjGDQjbrpEAJ6v"
-accessTokenSecret = "LalwuqFdMEi1CgC6t4GfQvn0J50ittqllZ2Uha6W3mPX4"
-auth = OAuthHandler(consumerKey, consumerSecret)
-auth.set_access_token(accessToken, accessTokenSecret)
-api = tweepy.API(auth)
+resource_package = __name__
 
+resource_path = '/'.join(('', 'model/svm_rbf_hp_model.pkl'))
+clf_path = pkg_resources.resource_filename(resource_package, resource_path)
+model = joblib.load(clf_path)
 
-def getTweets(n, contains):
-    """returns n tweets that contain the contains parameter, but with that string removed from the tweet for classification purposes"""
-    tweets = []
-    i = 0
-    for tweet in tweepy.Cursor(api.search,
-                           q=contains + "-filter:retweets",
-                           rpp=100,
-                           result_type="mixed",
-                           include_entities=True,
-                           lang="en").items():
-        #Replace the searched term so it is not used in sentiment classification
-        tweetToAdd = cleanTweet(tweet.text)
-        tweets.append(tweetToAdd)
-        i += 1
-        if i >= n:
-            break
+resource_path = '/'.join(('', 'model/count_vect.pkl'))
+vec_path = pkg_resources.resource_filename(resource_package, resource_path)
+vec = joblib.load(vec_path)
+
+resource_path = '/'.join(('', 'model/tfidf_transformer.pkl'))
+idf_path = pkg_resources.resource_filename(resource_package, resource_path)
+idf = joblib.load(idf_path)
+
+def clasification_SVM_RBF(dataframe):
+    tfidf_transformer = TfidfTransformer()
+    count_vect = CountVectorizer()
+
+    data_samples = dataframe.text
+
+    X_new_counts = vec.transform(data_samples)
+    X_new_tfidf = idf.transform(X_new_counts)
+
+    dataframe['predict'] = pd.DataFrame({'predict': model.predict(X_new_tfidf)})
+    y_test = dataframe.emotion.astype(np.int64)
+    predict = dataframe.predict
+    
+    dataframe['state'] = np.where(y_test == predict, 'matched', 'unmatched')
+    accuracy = accuracy_score(y_test, predict)
+    accuracy = 100 * accuracy
+    conf = confusion_matrix(y_test, predict)
+    report = classification_report(y_test, predict)
+
+    return convertToDict(dataframe) , accuracy , conf, report
+
+def findState(dataframe):
+    dataframe['state']= np.where((dataframe['predict'] == 2), 'matched' , 'unmatched')
+    print dataframe
+    return dataframe
+    
+
+def convertToDict(tweet):
+    tweets = []  
+    for i in range(len(tweet)):
+        obj = {}
+        #print "test 2 ", tweet.loc[i]['text']
+        obj['text'] = tweet.loc[i]['text']
+        obj['emotion'] = tweet.loc[i]['emotion']
+        obj['predict'] = tweet.loc[i]['predict']
+        obj['state'] = tweet.loc[i]['state']
+        #print tweet.iloc[i]['text']
+        tweets.append(obj)
     return tweets
 
-def cleanTweet(tweetText):
-    """Remove links and no traditional characters from a tweet"""
-    #Remove links
-    cleaned = re.sub(r"(?:\@|https?\://)\S+", "", tweetText)
-    #Remove non-alphanumeric characters
-    pattern = re.compile('\W ')
-    cleaned = re.sub(pattern,"", cleaned)
-    #Remove non-ascii characters
-    cleaned = re.sub(r'[^\x00-\x7F]+',' ', cleaned)
-    return cleaned
+def GraphsViewBar(request):
+    f = plt.figure()
+    x = np.arange(10)
+    h = [0,1,2,3,5,6,4,2,1,0]
+    plt.title('Title')
+    plt.xlim(0, 10)
+    plt.ylim(0, 8)
+    plt.xlabel('x label')
+    plt.ylabel('y label')
+    bar1 = plt.bar(x,h,width=1.0,bottom=0,color='Green',alpha=0.65,label='Legend')
+    plt.legend()
 
-def word_features(words):
-    stopset = list(set(stopwords.words('english')))
-    for i in  range(len(stopset)):
-        stopset[i] = str(stopset[i])
-    feats = []
-    for word in words.split():
-        for stopword in stopset:
-            if word != stopword:
-                feats.append((word, True))
-    return dict(feats)
+    canvas = FigureCanvasAgg(f)    
+    response = HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    matplotlib.pyplot.close(f)   
+    return response
 
-def classifyTweets(tweets, searchTerm):
-    """Returns a list of sub lists are a pair of a tweet and its sentiment"""
-    fobj = open(os.path.split(os.path.abspath(__file__))[0]+'/NBC.pickle', 'rb')
-    nbc = pickle.load(fobj)
-    fobj.close()
-    sentiment = []
-    for tweet in tweets:
-        #Remove the search term from the tweet before classifying it's sentiment
-        toClassify = tweet
-        replacePattern = re.compile(searchTerm, re.IGNORECASE)
-        toClassify = replacePattern.sub("",toClassify)
-        sentiment.append([tweet,nbc.classify(word_features(toClassify))])
-        # uprint(tweet)
-    return sentiment
+def analyzeInput(text):
+    
+    text = text
 
-def classifySentiment(text):
-    """Classify the sentiment of some text"""
-    fobj = open(os.path.split(os.path.abspath(__file__))[0]+'/NBC.pickle', 'rb')
-    nbc = pickle.load(fobj)
-    fobj.close()
-    return nbc.classify(word_features(text))
-
-def computeSentimentStats(tweetSentimentPairs):
-    totalNeg = 0.0
-    totalPos = 0.0
-    for pair in tweetSentimentPairs:
-        if(pair[0] == "negative"):
-            totalNeg += 1
-        elif(pair[0] == "positive"):
-            totalPos += 1
-    total = totalNeg+ totalPos
-    if(total > 0):
-        return [round(100*(totalNeg/total),2),round(100*(totalPos/total),2)]
-    else:
-        return ["N/A","N/A"]
+    return text

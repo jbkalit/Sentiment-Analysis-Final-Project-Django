@@ -12,12 +12,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tweet Sentiment Analyzer</title>
+  <title>Tweet Sentiment Analyzer</title>
     <!-- Bootstrap core CSS -->
 
   <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/vendor/bootstrap/css/bootstrap.min.css' %}" />
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text.css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/scrolling-nav.css' %}" />
+  <link rel="stylesheet" type="text.css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/scrolling-nav.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/offcanvas.css' %}" />
+  
   <style>
   </style>
   </head>
@@ -33,7 +35,10 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#upload">Analyze Tweets</a>
+              <a class="nav-link js-scroll-trigger" href="#analyze">Analyze</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#upload">Upload</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#preprocessing">Preprocessing</a>
@@ -54,9 +59,37 @@
         </div>
       </div>
     </nav>
-    
+   
+    <section id="analyze">
+      <div class="container">
+      <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Analyze Your Sentiment</h6>
+          <small>Since 2011</small>
+        </div>
+      </div>
+
+        <div class="row">
+         <div class="col-lg-12 mx-auto" style="text-align:center;">
+           <form action="/" method="POST" id="classify">
+            {% csrf_token %}
+                <p>Enter some text to classify :</p>
+                <p>{{ ClassifyForm.text }}</p>
+                <input class="btn btn-primary" type="submit" value="Submit"/>
+          </form>
+           <br></br>
+          <p><strong>Sentiment: </strong>{{ text }}</p>
+            <br></br>
+            <h4>OR</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!--////////////////////////////-->
+
     <section id="upload">
-      <br></br>
       <br></br>
       <div class="container">
         <div class="row">
@@ -64,9 +97,9 @@
           <form method="POST" enctype="multipart/form-data" class="form-horizontal" >
           {% csrf_token %}
           <div class="form-group">
-          <input type="file" name="myfile" required="True" class="form-control" style="text-align:center;">
+          <!-- <input type="file" name="myfile" required="True" class="form-control" style="text-align:center;"> -->
+            {{ UploadForm.myfile }}
           </div>
-
           <div class="form-group">
           <button class="btn btn-primary">Upload</button>
           </div> 
@@ -96,13 +129,17 @@
 
 <!--////////////////////////////-->
 
-    <section id="preprocessing">
-   
-    <div class="container">
-    <div class="row">
-    <div class="col-lg-12 mx-auto" style="text-align:center;">
-     <h2>Preprocessing</h2>
-      
+  <section id="preprocessing">
+  <div class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Preprocessing</h6>
+          <small>Since 2011</small>
+        </div>
+  </div>
+  <div class="row">    
+  <div class="col-lg-12 mx-auto" style="text-align:center;">
   <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="heading1">
@@ -490,28 +527,132 @@
 <!--////////////////////////////-->
 
     <section id="classification">
+
     <div class="container">
+      <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Classification</h6>
+          <small>Since 2011</small>
+        </div>
+    </div>
+  
     <div class="row">
-    <div class="col-lg-12 mx-auto" style="text-align:center;">
-      <h2>Classification</h2>
-            
+    <div class="col-md-6 mx-auto" style="text-align:center;">
+      <h3>Super Vector Machine</h3>
             <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
                     <td><strong>Tweet</strong></td>
                     <td><strong>Emotion</strong></td>
                     <td><strong>Hasil Klasifikasi</strong></td>
-                    <td><strong>Status</strong></td>
+                    <td><strong>Keterangan</strong></td>
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in tweets %}
+              {% for tweet in classify %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
+                    <td>{{ tweet.predict }}</td> 
+                    <td>{{ tweet.state }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+            
+            <h5>Confusion Matrix</h5>
+            <pre><code>{{ conf }}</code></pre>
+            <h5>Classification Report</h5>
+            <pre><code>{{ report }}</code></pre>
+            <pre><code>Accuracy {{ accuracy }}%</code></pre>
+
+          </div>
+          <div class="col-md-6 mx-auto" style="text-align:center;">
+      <h3>Multi Layer Perceptron</h3>
+            <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                    <td><strong>Hasil Klasifikasi</strong></td>
+                    <td><strong>Keterangan</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in classify %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
+                    <td>{{ tweet.predict }}</td> 
+                    <td>{{ tweet.state }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+          <h5>Confusion Matrix</h5>
+            <pre><code>{{ conf }}</code></pre>
+          <h5>Classification Report</h5>
+            <pre><code>{{ report }}</code></pre>
+            <pre><code>Accuracy {{ accuracy }}%</code></pre>
+            
+          </div>
+        </div>
+      </div>
+     <br></br>
+    </section>
+
+    <section id="evaluation">  
+    <div class="container">
+     <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Evaluation</h6>
+          <small>Since 2011</small>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-6 mx-auto" style="text-align:center;">
+      <h3>Super Vector Machine</h3>
+            <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                    <td><strong>Hasil Klasifikasi</strong></td>
+                    <td><strong>Keterangan</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in classify %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
-                  
+                    <td>{{ tweet.predict }}</td> 
+                    <td>{{ tweet.state }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+          </div>
+      <div class="col-md-6 mx-auto" style="text-align:center;">
+      <h3>Multi Layer Perceptron</h3>
+            <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                    <td><strong>Hasil Klasifikasi</strong></td>
+                    <td><strong>Keterangan</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in classify %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                    <td>{{ tweet.predict }}</td> 
+                    <td>{{ tweet.state }}</td> 
                   </tr>
               {% endfor %}
              </tbody>
@@ -519,20 +660,6 @@
 
           </div>
         </div>
-      </div>
-     <br></br>
-    </section>
-
-    <section id="evaluation">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto" style="text-align:center;">
-            <h2>Evaluation</h2>
-            <p class="lead">This project was developed using Django, Python Natural Language Toolkit, and Tweepy.
-             Tweet sentiment is trained on a 10,000 tweet training set.</p>
-          </div>
-        </div>
-      </div>
        <br></br>
     </section>
 
@@ -556,6 +683,7 @@
             <h2>About</h2>
             <p class="lead">This project was developed using Django, Python Natural Language Toolkit, and Tweepy.
              Tweet sentiment is trained on a 10,000 tweet training set.</p>
+             <img src="http://localhost:8000/_Matplotlib/Bar/" />
           </div>
         </div>
       </div>
