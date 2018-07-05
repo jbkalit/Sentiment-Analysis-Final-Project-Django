@@ -12,12 +12,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-  <title>Tweet Sentiment Analyzer</title>
+  <title>Tweet Classifier</title>
     <!-- Bootstrap core CSS -->
 
   <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/vendor/bootstrap/css/bootstrap.min.css' %}" />
     <!-- Custom styles for this template -->
-  <link rel="stylesheet" type="text.css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/scrolling-nav.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/offcanvas.css' %}" />
   
   <style>
@@ -28,14 +27,14 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Tweet Sentiment Analyzer</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Tweet Classifier</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#analyze">Analyze</a>
+              <a class="nav-link js-scroll-trigger" href="#classfy">Classify</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#upload">Upload</a>
@@ -60,12 +59,12 @@
       </div>
     </nav>
    
-    <section id="analyze">
+    <section id="classify">
       <div class="container">
       <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
         <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
         <div class="lh-100">
-          <h6 class="mb-0 text-white lh-100">Analyze Your Sentiment</h6>
+          <h6 class="mb-0 text-white lh-100">Classify Your Sentiment</h6>
           <small>Since 2011</small>
         </div>
       </div>
@@ -74,14 +73,12 @@
          <div class="col-lg-12 mx-auto" style="text-align:center;">
            <form action="/" method="POST" id="classify">
             {% csrf_token %}
-                <p>Enter some text to classify :</p>
+                <br></br>
                 <p>{{ ClassifyForm.text }}</p>
                 <input class="btn btn-primary" type="submit" value="Submit"/>
           </form>
            <br></br>
           <p><strong>Sentiment: </strong>{{ text }}</p>
-            <br></br>
-            <h4>OR</h4>
           </div>
         </div>
       </div>

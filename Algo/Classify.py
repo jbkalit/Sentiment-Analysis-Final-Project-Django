@@ -103,6 +103,29 @@ def GraphsViewBar(request):
 
 def analyzeInput(text):
     
-    text = text
+    tweet = []
 
-    return text
+    tfidf_transformer = TfidfTransformer()
+    count_vect = CountVectorizer()
+
+    tweet = [text]
+
+    X_new_counts = vec.transform(tweet)
+    X_new_tfidf = idf.transform(X_new_counts)
+
+    predict = model.predict(X_new_tfidf)
+
+    if predict == 0:
+        predict = "joy"
+    elif predict == 1:
+        predict = "fear"
+    elif predict == 2:
+        predict = "anger"
+    elif predict == 3:
+        predict = "sadness"
+    elif predict == 4:
+        predict = "disgust"
+    elif predict == 5:
+        predict = "surprise"
+
+    return predict
