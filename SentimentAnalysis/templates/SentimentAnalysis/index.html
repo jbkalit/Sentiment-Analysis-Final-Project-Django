@@ -62,10 +62,10 @@
     <section id="classify">
       <div class="container">
       <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <H1 class="mr-3" alt="" width="48" height="48">C</H1>
         <div class="lh-100">
           <h6 class="mb-0 text-white lh-100">Classify Your Sentiment</h6>
-          <small>Since 2011</small>
+          <small>Tweet Classification</small>
         </div>
       </div>
 
@@ -129,10 +129,10 @@
   <section id="preprocessing">
   <div class="container">
     <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <H1 class="mr-3" alt="" width="48" height="48">P</H1>
         <div class="lh-100">
           <h6 class="mb-0 text-white lh-100">Preprocessing</h6>
-          <small>Since 2011</small>
+          <small>Tweet Classification</small>
         </div>
   </div>
   <div class="row">    
@@ -389,6 +389,68 @@
       </div>
     </div>
   </div>
+    <div class="card">
+    <div class="card-header" id="heading12">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
+          NER
+        </button>
+      </h5>
+    </div>
+    <div id="collapse12" class="collapse" aria-labelledby="heading12" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in tweets %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+    </div>
+      <div class="card">
+    <div class="card-header" id="heading13">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
+          Convert Negation
+        </button>
+      </h5>
+    </div>
+    <div id="collapse13" class="collapse" aria-labelledby="heading13" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in tweets %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
+      </div>
+    </div>
+    </div>
   <div class="card">
     <div class="card-header" id="heading9">
       <h5 class="mb-0">
@@ -483,37 +545,6 @@
       </div>
     </div>
   </div>
-  <div class="card">
-    <div class="card-header" id="heading12">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
-          NER
-        </button>
-      </h5>
-    </div>
-    <div id="collapse12" class="collapse" aria-labelledby="heading12" data-parent="#accordionExample">
-      <div class="card-body">
-        
-        <table class="table table-sm bordered table-condensed">
-              <thead>
-                <tr>
-                    <td><strong>Tweet</strong></td>
-                    <td><strong>Emotion</strong></td>
-                  </tr>
-              </thead>
-              <tbody>
-              {% for tweet in tweets %}
-                  <tr>
-                    <td>{{ tweet.text }}</td>
-                    <td>{{ tweet.emotion }}</td> 
-                  </tr>
-              {% endfor %}
-             </tbody>
-           </table>
-
-      </div>
-    </div>
-    </div>
     </div>
     </div>
     </div>
@@ -527,10 +558,10 @@
 
     <div class="container">
       <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <H1 class="mr-3" alt="" width="48" height="48">C</H1>
         <div class="lh-100">
           <h6 class="mb-0 text-white lh-100">Classification</h6>
-          <small>Since 2011</small>
+          <small>Tweet Classification</small>
         </div>
     </div>
   
@@ -602,10 +633,10 @@
     <section id="evaluation">  
     <div class="container">
      <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
-        <img class="mr-3" src="https://getbootstrap.com/docs/4.1/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <H1 class="mr-3" alt="" width="48" height="48">E</H1>
         <div class="lh-100">
           <h6 class="mb-0 text-white lh-100">Evaluation</h6>
-          <small>Since 2011</small>
+          <small>Tweet Classification</small>
         </div>
     </div>
     <div class="row">
@@ -621,7 +652,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in classify %}
+              {% for tweet in tweets %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -644,7 +675,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in classify %}
+              {% for tweet in tweets %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -662,11 +693,60 @@
 
      <section id="class">
       <div class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <H1 class="mr-3" alt="" width="48" height="48">E</H1>
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Evaluation Per Class</h6>
+          <small>Tweet Classification</small>
+        </div>
+      </div>
         <div class="row">
-          <div class="col-lg-8 mx-auto" style="text-align:center;">
-            <h2>Evaluasion Per Class</h2>
-            <p class="lead">This project was developed using Django, Python Natural Language Toolkit, and Tweepy.
-             Tweet sentiment is trained on a 10,000 tweet training set.</p>
+           <div class="col-md-6 mx-auto" style="text-align:center;">
+      <h3>Super Vector Machine</h3>
+            <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                    <td><strong>Hasil Klasifikasi</strong></td>
+                    <td><strong>Keterangan</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in tweets %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                    <td>{{ tweet.predict }}</td> 
+                    <td>{{ tweet.state }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+          </div>
+      <div class="col-md-6 mx-auto" style="text-align:center;">
+      <h3>Multi Layer Perceptron</h3>
+            <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Tweet</strong></td>
+                    <td><strong>Emotion</strong></td>
+                    <td><strong>Hasil Klasifikasi</strong></td>
+                    <td><strong>Keterangan</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for tweet in tweets %}
+                  <tr>
+                    <td>{{ tweet.text }}</td>
+                    <td>{{ tweet.emotion }}</td> 
+                    <td>{{ tweet.predict }}</td> 
+                    <td>{{ tweet.state }}</td> 
+                  </tr>
+              {% endfor %}
+             </tbody>
+           </table>
+
           </div>
         </div>
       </div>
@@ -675,9 +755,15 @@
 
     <section id="contact">
       <div class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <H1 class="mr-3" alt="" width="48" height="48">A</H1>
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">About</h6>
+          <small>Tweet Classification</small>
+        </div>
+      </div>
         <div class="row">
           <div class="col-lg-8 mx-auto" style="text-align:center;">
-            <h2>About</h2>
             <p class="lead">This project was developed using Django, Python Natural Language Toolkit, and Tweepy.
              Tweet sentiment is trained on a 10,000 tweet training set.</p>
              <img src="http://localhost:8000/_Matplotlib/Bar/" />

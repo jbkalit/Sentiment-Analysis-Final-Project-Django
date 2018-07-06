@@ -38,68 +38,68 @@ def upload(request):
 			readCSV =csv.DictReader(myfile, delimiter=',')
 			dataCSV = list(readCSV)
 			df = pd.DataFrame(dataCSV, columns=['text','emotion'])
-			df.to_csv('dataframe_test.csv',encoding='utf-8')
+			df.to_csv('dataframe_test.csv',encoding='utf8')
 # FOR SHOW ON GUI FILE UPLOADED
 			for row in dataCSV:
 				obj = {}
 		  		obj['text'] = (row['text'])
 		  		obj['emotion'] = (row['emotion'])
 				tweets.append(obj)
+				#print tweets
+			lowercase = Preprocessing.lowercase(df)
+			
+			lowercaseDF = pd.DataFrame(lowercase)
+			
+			removeNumber = Preprocessing.removeNumber(lowercaseDF)
+			
+			removeNumberDF =  pd.DataFrame(removeNumber)
 
-			classify , accuracy, conf, report = Classify.clasification_SVM_RBF(df)
+			removeUrl = Preprocessing.removeUrl(removeNumberDF)
+
+			removeUrlDF = pd.DataFrame(removeUrl)
+
+
+			removeRT=(Preprocessing.removeRT(removeUrlDF))
+			
+			removeRTDF = pd.DataFrame(removeRT)
+			
+			removeAt=(Preprocessing.removeAt(removeRTDF))
+			
+			removeAtDF =  pd.DataFrame(removeAt)
+
+			removeBadChar=(Preprocessing.removeBadChar(removeAtDF))
+
+			removeBadCharDF = pd.DataFrame(removeBadChar)
+
+
+			punctuation=(Preprocessing.punctuation(removeBadCharDF))
+			
+			punctuationDF = pd.DataFrame(punctuation)
+			
+			normalization=(Preprocessing.normalization(punctuationDF))
+
+			normalizationDF =  pd.DataFrame(normalization)
+
+			removeStopwords=(Preprocessing.removeStopwords(normalizationDF))
+
+			removeStopwordsDF = pd.DataFrame(removeStopwords)
+
+			
+			stemming=(Preprocessing.stemming(removeStopwordsDF))
+			
+			stemmingDF = pd.DataFrame(stemming)
+			
+			removeDuplicate = (Preprocessing.removeDuplicate(stemmingDF))
+			
+			removeDuplicateDF =  pd.DataFrame(removeDuplicate)
+
+			classify , accuracy, conf, report = Classify.clasification_SVM_RBF(removeDuplicateDF)
+
+
 
 		form2 = ClassifyForm(request.POST)
 		if form2.is_valid():
 			text = Classify.analyzeInput(form2.cleaned_data['text'])
-
-# PREPROCESSING
-
-			# lowercase.append(Preprocessing.lowercase(df))
-			
-			# lowercaseDF = pd.DataFrame([Preprocessing.lowercase(df)])
-			
-			# removeNumber.append(Preprocessing.removeNumber(lowercaseDF))
-			
-			# removeNumberDF =  pd.DataFrame([Preprocessing.removeNumber(lowercaseDF)])
-
-			# removeUrl.append(Preprocessing.removeUrl(removeNumberDF))
-
-			# removeUrlDF = pd.DataFrame([Preprocessing.removeUrl(removeNumberDF)])
-
-
-			# removeRT.append(Preprocessing.removeRT(removeUrlDF))
-			
-			# removeRTDF = pd.DataFrame([Preprocessing.removeRT(removeUrlDF)])
-			
-			# removeAt.append(Preprocessing.removeAt(removeRTDF))
-			
-			# removeAtDF =  pd.DataFrame([Preprocessing.removeAt(removeRTDF)])
-
-			# removeBadChar.append(Preprocessing.removeBadChar(removeAtDF))
-
-			# removeBadCharDF = pd.DataFrame([Preprocessing.removeBadChar(removeAtDF)])
-
-
-			# punctuation.append(Preprocessing.punctuation(removeBadCharDF))
-			
-			# punctuationDF = pd.DataFrame([Preprocessing.punctuation(removeBadCharDF)])
-			
-			# normalization.append(Preprocessing.normalization(punctuationDF))
-			
-			# normalizationDF =  pd.DataFrame([Preprocessing.normalization(punctuationDF)])
-
-			# removeStopwords.append(Preprocessing.removeStopwords(normalizationDF))
-
-			# removeStopwordsDF = pd.DataFrame([Preprocessing.removeStopwords(normalizationDF)])
-
-			
-			# stemming.append(Preprocessing.stemming(removeStopwordsDF))
-			
-			# stemmingDF = pd.DataFrame([Preprocessing.stemming(removeStopwordsDF)])
-			
-			# removeDuplicate.append(Preprocessing.removeDuplicate(stemmingDF))
-			
-			# removeDuplicateDF =  pd.DataFrame([Preprocessing.removeDuplicate(stemmingDF)])
 
 # CLASSIFICATION
 		
