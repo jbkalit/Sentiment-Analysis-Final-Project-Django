@@ -70,6 +70,8 @@ body {
 
 .bg-purple { background-color: #198dd1; }
 
+.bg-grey { background-color: #4a4f4d; }
+
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }

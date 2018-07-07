@@ -568,7 +568,10 @@
   
     <div class="row">
     <div class="col-md-6 mx-auto" style="text-align:center;">
-      <h3>Super Vector Machine</h3>
+    
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+          <h5 class="mb-0 text-white lh-100">Support Vector Machine</h5>
+    </div>
             <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -590,15 +593,26 @@
              </tbody>
            </table>
             
-            <h5>Confusion Matrix</h5>
+            <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Confusion Matrix</h5>
+            </div>
             <pre><code>{{ conf }}</code></pre>
-            <h5>Classification Report</h5>
+            <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Classification Report</h5>
+            </div>
             <pre><code>{{ report }}</code></pre>
-            <pre><code>Accuracy {{ accuracy }}%</code></pre>
+            <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+            <h5 class="mb-0 text-white lh-100">Accuracy</h5>
+            </div>
+            <pre><code>{{ accuracy }} % </code></pre>
 
           </div>
           <div class="col-md-6 mx-auto" style="text-align:center;">
-      <h3>Multi Layer Perceptron</h3>
+
+<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+          <h5 class="mb-0 text-white lh-100">Multi Layer Perceptron</h5>
+</div>
+
             <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -619,12 +633,20 @@
               {% endfor %}
              </tbody>
            </table>
-          <h5>Confusion Matrix</h5>
-            <pre><code>{{ conf }}</code></pre>
-            <h5>Classification Report</h5>
-            <pre><code>{{ report }}</code></pre>
-            <pre><code>Accuracy {{ accuracy }}%</code></pre>
             
+            <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+            <h5 class="mb-0 text-white lh-100">Confusion Matrix</h5>
+            </div>
+            <pre><code>{{ conf }}</code></pre>
+            <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+            <h5 class="mb-0 text-white lh-100">Classification Report</h5>
+            </div>
+            <pre><code>{{ report }}</code></pre>
+            <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+            <h5 class="mb-0 text-white lh-100">Accuracy</h5>
+            </div>
+            <pre><code>{{ accuracy }} % </code></pre>
+          
           </div>
         </div>
       </div>
@@ -642,7 +664,9 @@
     </div>
     <div class="row">
     <div class="col-md-6 mx-auto" style="text-align:center;">
-      <h3>Super Vector Machine</h3>
+      <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Support Vector Machine</h5>
+            </div>
             <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -665,7 +689,9 @@
            </table>
           </div>
       <div class="col-md-6 mx-auto" style="text-align:center;">
-      <h3>Multi Layer Perceptron</h3>
+      <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Multi Layer Perceptron</h5>
+            </div>
             <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -703,7 +729,9 @@
       </div>
         <div class="row">
            <div class="col-md-6 mx-auto" style="text-align:center;">
-      <h3>Super Vector Machine</h3>
+      <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Support Vector Machine</h5>
+        </div>
             <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -725,10 +753,13 @@
              </tbody>
            </table>
             
-  <div class="col mx-auto">
-  <p class="mb-0">Jumlah data : {{ total }} </p>
-  <hr>
-  <p>Data Cocok : </p>
+
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Jumlah Data Prediksi : {{ total }}</h5>
+            </div>
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Jumlah Data Prediksi Sesuai</h5>
+            </div>
   <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -751,7 +782,9 @@
                   </tr>
              </tbody>
            </table>
-  <p>Data Tidak Cocok : </p>
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Jumlah Data Prediksi Tidak Sesuai</h5>
+            </div>
   <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -774,8 +807,10 @@
                   </tr>
              </tbody>
            </table>
-  </div>                 
-           
+                
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Persentase Data Prediksi</h5>
+            </div>
   <div class="row">
   <div class="col-sm-4 mb-4">
     <div class="card">
@@ -835,8 +870,12 @@
            
           </div>
         </div>
+     
       <div class="col-md-6 mx-auto" style="text-align:center;">
-      <h3>Multi Layer Perceptron</h3>
+  
+     <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Multi Layer Perceptron</h5>
+        </div>
             <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -857,11 +896,14 @@
               {% endfor %}
              </tbody>
            </table>
+            
 
-    <div class="col mx-auto">
-  <p class="mb-0">Jumlah data : {{ total }} </p>
-  <hr>
-  <p>Data Cocok : </p>
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Jumlah Data Prediksi : {{ total }}</h5>
+            </div>
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Jumlah Data Prediksi Sesuai</h5>
+            </div>
   <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -884,7 +926,9 @@
                   </tr>
              </tbody>
            </table>
-  <p>Data Tidak Cocok : </p>
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Jumlah Data Prediksi Tidak Sesuai</h5>
+            </div>
   <table class="table table-sm bordered table-condensed">
               <thead>
                 <tr>
@@ -907,8 +951,10 @@
                   </tr>
              </tbody>
            </table>
-  </div>         
-           
+                
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-grey rounded box-shadow"> 
+              <h5 class="mb-0 text-white lh-100">Persentase Data Prediksi</h5>
+            </div>
   <div class="row">
   <div class="col-sm-4 mb-4">
     <div class="card">
@@ -965,10 +1011,11 @@
   </div>
 </div>
 
-        </div>
       </div>
+    </div>
+    </div>
     <br></br>
-    </section>
+  </section>
 
     <section id="contact">
       <div class="container">
@@ -978,7 +1025,8 @@
           <h6 class="mb-0 text-white lh-100">About</h6>
           <small>Tweet Classification</small>
         </div>
-      </div>
+        </div>
+
         <div class="row">
           <div class="col-lg-8 mx-auto" style="text-align:center;">
             <p class="lead">This project was developed using Django, Python Natural Language Toolkit, and Tweepy.
