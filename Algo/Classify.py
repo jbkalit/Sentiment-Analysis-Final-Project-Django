@@ -62,13 +62,8 @@ def clasification_SVM_RBF(dataframe):
     conf = confusion_matrix(y_test, predict)
     report = classification_report(y_test, predict)
 
-    return convertToDict(dataframe) , accuracy , conf, report
-
-def findState(dataframe):
-    dataframe['state']= np.where((dataframe['predict'] == 2), 'matched' , 'unmatched')
-    print dataframe
-    return dataframe
     
+    return dataframe, convertToDict(dataframe) , accuracy , conf, report   
 
 def convertToDict(tweet):
     tweets = []  
@@ -104,7 +99,7 @@ def GraphsViewBar(request):
 def analyzeInput(text):
     
     tweet = []
-
+    URL = ['']
     tfidf_transformer = TfidfTransformer()
     count_vect = CountVectorizer()
 
@@ -115,17 +110,117 @@ def analyzeInput(text):
 
     predict = model.predict(X_new_tfidf)
 
-    if predict == 0:
-        predict = "joy"
-    elif predict == 1:
-        predict = "fear"
-    elif predict == 2:
-        predict = "anger"
-    elif predict == 3:
-        predict = "sadness"
-    elif predict == 4:
-        predict = "disgust"
-    elif predict == 5:
-        predict = "surprise"
+    #accuracy = accuracy_score(y_test, predict)
+    #accuracy = 100 * accuracy
 
-    return predict
+    #print accuracy
+
+    if predict == 0:
+        predict = " JOY"
+        URL = '/static/images/0.png'
+    elif predict == 1:
+        predict = " FEAR"
+        URL = '/static/images/1.png'
+    elif predict == 2:
+        predict = " ANGER"
+        URL = '/static/images/2.png'
+    elif predict == 3:
+        predict = " SADNESS"
+        URL = '/static/images/3.png'
+    elif predict == 4:
+        predict = " DISGUST"
+        URL = '/static/images/4.png'
+    elif predict == 5:
+        predict = " SURPRISE"
+        URL = '/static/images/5.png'
+
+    return predict, URL
+
+def evaluasiPerKelas(tweet):
+
+
+    totJoy = 0.0
+    totFear = 0.0
+    totAnger = 0.0
+    totSadness = 0.0
+    totDisgust = 0.0
+    totSurprise = 0.0
+
+    listTweet = tweet['predict'].astype(np.int64)
+
+    print listTweet
+
+    for pair in listTweet:
+        if (pair == 0):
+            totJoy += 1
+        elif (pair == 1):
+            totFear += 1
+        elif (pair == 2):
+            totAnger += 1
+        elif (pair == 3):
+            totSadness += 1
+        elif (pair == 4):
+            totDisgust += 1
+        elif (pair == 5):
+            totSurprise += 1
+
+    total = totJoy + totFear + totAnger + totSadness + totDisgust + totSurprise
+
+    if(total > 0):
+        return [round(100*(totJoy/total),6),round(100*(totFear/total),6),round(100*(totAnger/total),6),round(100*(totSadness/total),6),round(100*(totDisgust/total),6),round(100*(totSurprise/total),6)]
+    else:
+        return ["N/A","N/A","N/A","N/A","N/A","N/A"]
+
+def evaluasiPerKelasMatchUnmatch(tweet):
+
+    total = 0
+
+    MJoy = 0
+    MFear = 0
+    MAnger = 0
+    MSadness = 0
+    MDisgust = 0
+    MSurprise = 0
+
+    UJoy = 0
+    UFear = 0
+    UAnger = 0
+    USadness = 0
+    UDisgust = 0
+    USurprise = 0
+
+    predict = tweet['predict'].astype(np.int64)    
+    emotion = tweet['emotion'].astype(np.int64)
+    state = tweet['state'].astype(str)
+
+    for i in range(len(tweet)):
+        if predict.iloc[i] == 0 and state.iloc[i] == "matched" :
+            MJoy += 1
+        elif predict.iloc[i] == 1 and state.iloc[i] == "matched" :
+            MFear += 1
+        elif predict.iloc[i] == 2 and state.iloc[i] == "matched" :
+            MAnger += 1
+        elif predict.iloc[i] == 3 and state.iloc[i] == "matched" :
+            MSadness += 1
+        elif predict.iloc[i] == 4 and state.iloc[i] == "matched" :
+            MDisgust += 1
+        elif predict.iloc[i] == 5 and state.iloc[i] == "matched" :
+            MSurprise += 1
+
+    for i in range(len(tweet)):
+        if predict.iloc[i] == 0 and state.iloc[i] == "unmatched" :
+            UJoy += 1
+        elif predict.iloc[i] == 1 and state.iloc[i] == "unmatched" :
+            UFear += 1
+        elif predict.iloc[i] == 2 and state.iloc[i] == "unmatched" :
+            UAnger += 1
+        elif predict.iloc[i] == 3 and state.iloc[i] == "unmatched" :
+            USadness += 1
+        elif predict.iloc[i] == 4 and state.iloc[i] == "unmatched" :
+            UDisgust += 1
+        elif predict.iloc[i] == 5 and state.iloc[i] == "unmatched" :
+            USurprise += 1
+
+    total = MJoy+MFear+MAnger+MSadness+MDisgust+MSurprise + UJoy+UFear+UAnger+USadness+UDisgust+USurprise
+
+    return [MJoy,MFear,MAnger,MSadness,MDisgust,MSurprise] , [UJoy,UFear,UAnger,USadness,UDisgust,USurprise] , total

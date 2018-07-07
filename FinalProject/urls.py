@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.contrib import admin
+from django.views.static import serve
 
 admin.autodiscover()
 
@@ -29,3 +30,12 @@ urlpatterns = [
 if settings.DEBUG:
     from django.conf.urls.static import static
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# if settings.DEBUG:
+#     urlpatterns += [
+#         url(r'^/local/path/to/analysis/(?P<path>.*)$', serve, {
+#             'document_root': settings.MEDIA_ROOT,
+#         }),
+#     ]

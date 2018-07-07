@@ -25,10 +25,6 @@ from bs4 import BeautifulSoup
 import pkg_resources
 
 resource_package = __name__
-resource_path = '/'.join(('', '/corpus/normalisasi.csv'))
-norm_path = pkg_resources.resource_filename(resource_package, resource_path)
-
-csv_filepathname='D:/Kuliah/Semester 7/TA            Tugas Akhir/TA/GUI/FinalProject/Algo/corpus/normalisasi.csv'
 
 def removeDuplicate(tweet):
 	tweet=tweet[~tweet['text'].duplicated()]
@@ -93,7 +89,7 @@ def normalization(tweet):
 	resource_path = '/'.join(('', 'corpus/normalisasi.csv'))
 	norm_path = pkg_resources.resource_filename(resource_package, resource_path)
 
-	reader = csv.reader(open(csv_filepathname, 'r'))
+	reader = csv.reader(open(norm_path, 'r'))
 
 	d = {}
 	for row in reader:
@@ -141,7 +137,10 @@ def stemming(tweet):
 
 
 def NER(data_train):
-	with open('NER.txt', 'r') as myfile: data=myfile.read().replace('\n', '')
+	resource_path = '/'.join(('', 'corpus/NER.txt'))
+	NER_path = pkg_resources.resource_filename(resource_package, resource_path)
+
+	with open(NER_path, 'r') as myfile: data=myfile.read().replace('\n', '')
 	
 	htmltxt = data
 	soup = BeautifulSoup(htmltxt, 'lxml')
@@ -216,9 +215,9 @@ def NER(data_train):
 
 def convertNegation(tweet):
 	resource_path = '/'.join(('', 'corpus/convert_negation_id.csv'))
-	clf_path = pkg_resources.resource_filename(resource_package, resource_path)
+	cn_path = pkg_resources.resource_filename(resource_package, resource_path)
 
-	reader = csv.reader(open(clf_path, 'r'))
+	reader = csv.reader(open(cn_path, 'r'))
 	d = {}
 	for row in reader:
 		k,v= row

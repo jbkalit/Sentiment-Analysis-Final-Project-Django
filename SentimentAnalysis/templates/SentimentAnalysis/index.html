@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/vendor/bootstrap/css/bootstrap.min.css' %}" />
     <!-- Custom styles for this template -->
-  <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/offcanvas.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap-scrolling-nav-gh-pages/css/modif.css' %}" />
   
   <style>
   </style>
@@ -78,7 +78,8 @@
                 <input class="btn btn-primary" type="submit" value="Submit"/>
           </form>
            <br></br>
-          <p><strong>Sentiment: </strong>{{ text }}</p>
+          <p><strong>Sentiment : </strong>{{ text }}</p>
+              <img src="{{ URL }}" alt="" />
           </div>
         </div>
       </div>
@@ -408,7 +409,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in tweets %}
+              {% for tweet in ner %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -439,7 +440,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in tweets %}
+              {% for tweet in convertnegation %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -620,7 +621,7 @@
            </table>
           <h5>Confusion Matrix</h5>
             <pre><code>{{ conf }}</code></pre>
-          <h5>Classification Report</h5>
+            <h5>Classification Report</h5>
             <pre><code>{{ report }}</code></pre>
             <pre><code>Accuracy {{ accuracy }}%</code></pre>
             
@@ -652,7 +653,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in tweets %}
+              {% for tweet in classify %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -675,7 +676,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in tweets %}
+              {% for tweet in classify %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -713,7 +714,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in tweets %}
+              {% for tweet in classify %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -723,7 +724,117 @@
               {% endfor %}
              </tbody>
            </table>
+            
+  <div class="col mx-auto">
+  <p class="mb-0">Jumlah data : {{ total }} </p>
+  <hr>
+  <p>Data Cocok : </p>
+  <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Senang</strong></td>
+                    <td><strong>Takut</strong></td>
+                    <td><strong>Marah</strong></td>
+                    <td><strong>Sedih</strong></td>
+                    <td><strong>Jijik</strong></td>
+                    <td><strong>Terkejut</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>{{ MJoy }}</td>
+                    <td>{{ MFear }}</td> 
+                    <td>{{ MAnger }}</td> 
+                    <td>{{ MSadness }}</td>
+                    <td>{{ MDisgust }}</td> 
+                    <td>{{ MSurprise }}</td>
+                  </tr>
+             </tbody>
+           </table>
+  <p>Data Tidak Cocok : </p>
+  <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Senang</strong></td>
+                    <td><strong>Takut</strong></td>
+                    <td><strong>Marah</strong></td>
+                    <td><strong>Sedih</strong></td>
+                    <td><strong>Jijik</strong></td>
+                    <td><strong>Terkejut</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>{{ UJoy }}</td>
+                    <td>{{ UFear }}</td> 
+                    <td>{{ UAnger }}</td> 
+                    <td>{{ USadness }}</td>
+                    <td>{{ UDisgust }}</td> 
+                    <td>{{ USurprise }}</td>
+                  </tr>
+             </tbody>
+           </table>
+  </div>                 
+           
+  <div class="row">
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+      <div class="card-header bg-purple text-white">Senang</div>
+      <div class="card-body">
+        <img src="/static/images/0.png" alt="" height="40" width="40" /></a>
+        <p class="mb-0">{{ perJoy }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Takut</div>
+      <div class="card-body">
+         <img src="/static/images/1.png" alt="" height="40" width="40" /></a>
+         <p class="mb-0">{{ perFear }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Marah</div>
+      <div class="card-body">
+        <img src="/static/images/2.png" alt="" height="40" width="40" /></a> 
+        <p class="mb-0">{{ perAnger }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Sedih</div>
+      <div class="card-body">
+          <img src="/static/images/3.png" alt="" height="40" width="40" /></a> 
+          <p class="mb-0">{{ perSadness }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Jijik</div>
+      <div class="card-body">
+         <img src="/static/images/4.png" alt="" height="40" width="40" /></a> 
+         <p class="mb-0">{{ perDisgust }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Terkejut</div>
+      <div class="card-body">
+        <img src="/static/images/5.png" alt="" height="40" width="40" /></a> 
+        <p class="mb-0">{{ perSurprise }} %</p>
+    </div>
+  </div>
+</div>
+           
+           
           </div>
+        </div>
       <div class="col-md-6 mx-auto" style="text-align:center;">
       <h3>Multi Layer Perceptron</h3>
             <table class="table table-sm bordered table-condensed">
@@ -736,7 +847,7 @@
                   </tr>
               </thead>
               <tbody>
-              {% for tweet in tweets %}
+              {% for tweet in classify %}
                   <tr>
                     <td>{{ tweet.text }}</td>
                     <td>{{ tweet.emotion }}</td> 
@@ -747,10 +858,116 @@
              </tbody>
            </table>
 
-          </div>
+    <div class="col mx-auto">
+  <p class="mb-0">Jumlah data : {{ total }} </p>
+  <hr>
+  <p>Data Cocok : </p>
+  <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Senang</strong></td>
+                    <td><strong>Takut</strong></td>
+                    <td><strong>Marah</strong></td>
+                    <td><strong>Sedih</strong></td>
+                    <td><strong>Jijik</strong></td>
+                    <td><strong>Terkejut</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>{{ MJoy }}</td>
+                    <td>{{ MFear }}</td> 
+                    <td>{{ MAnger }}</td> 
+                    <td>{{ MSadness }}</td>
+                    <td>{{ MDisgust }}</td> 
+                    <td>{{ MSurprise }}</td>
+                  </tr>
+             </tbody>
+           </table>
+  <p>Data Tidak Cocok : </p>
+  <table class="table table-sm bordered table-condensed">
+              <thead>
+                <tr>
+                    <td><strong>Senang</strong></td>
+                    <td><strong>Takut</strong></td>
+                    <td><strong>Marah</strong></td>
+                    <td><strong>Sedih</strong></td>
+                    <td><strong>Jijik</strong></td>
+                    <td><strong>Terkejut</strong></td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td>{{ UJoy }}</td>
+                    <td>{{ UFear }}</td> 
+                    <td>{{ UAnger }}</td> 
+                    <td>{{ USadness }}</td>
+                    <td>{{ UDisgust }}</td> 
+                    <td>{{ USurprise }}</td>
+                  </tr>
+             </tbody>
+           </table>
+  </div>         
+           
+  <div class="row">
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+      <div class="card-header bg-purple text-white">Senang</div>
+      <div class="card-body">
+        <img src="/static/images/0.png" alt="" height="40" width="40" /></a>
+        <p class="mb-0">{{ perJoy }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Takut</div>
+      <div class="card-body">
+         <img src="/static/images/1.png" alt="" height="40" width="40" /></a>
+         <p class="mb-0">{{ perFear }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Marah</div>
+      <div class="card-body">
+        <img src="/static/images/2.png" alt="" height="40" width="40" /></a> 
+        <p class="mb-0">{{ perAnger }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Sedih</div>
+      <div class="card-body">
+          <img src="/static/images/3.png" alt="" height="40" width="40" /></a> 
+          <p class="mb-0">{{ perSadness }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Jijik</div>
+      <div class="card-body">
+         <img src="/static/images/4.png" alt="" height="40" width="40" /></a> 
+         <p class="mb-0">{{ perDisgust }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 mb-4">
+    <div class="card">
+       <div class="card-header bg-purple text-white">Terkejut</div>
+      <div class="card-body">
+        <img src="/static/images/5.png" alt="" height="40" width="40" /></a> 
+        <p class="mb-0">{{ perSurprise }} %</p>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
-       <br></br>
+    <br></br>
     </section>
 
     <section id="contact">
