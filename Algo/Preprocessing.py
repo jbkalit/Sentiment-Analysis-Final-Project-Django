@@ -137,7 +137,7 @@ def stemming(tweet):
 
 
 def NER(data_train):
-	resource_path = '/'.join(('', 'corpus/NER.txt'))
+	resource_path = '/'.join(('', 'corpus/NER_evaluasi.txt'))
 	NER_path = pkg_resources.resource_filename(resource_package, resource_path)
 
 	with open(NER_path, 'r') as myfile: data=myfile.read().replace('\n', '')

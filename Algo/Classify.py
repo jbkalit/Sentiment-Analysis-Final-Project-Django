@@ -31,9 +31,13 @@ from sklearn.metrics import classification_report
 
 resource_package = __name__
 
-resource_path = '/'.join(('', 'model/svm_rbf_hp_model.pkl'))
-clf_path = pkg_resources.resource_filename(resource_package, resource_path)
-model = joblib.load(clf_path)
+resource_path = '/'.join(('', 'model/svm.pkl'))
+svm_path = pkg_resources.resource_filename(resource_package, resource_path)
+model_svm = joblib.load(svm_path)
+
+resource_path = '/'.join(('', 'model/mlp.pkl'))
+mlp_path = pkg_resources.resource_filename(resource_package, resource_path)
+model_mlp = joblib.load(mlp_path)
 
 resource_path = '/'.join(('', 'model/count_vect.pkl'))
 vec_path = pkg_resources.resource_filename(resource_package, resource_path)
@@ -52,7 +56,7 @@ def clasification_SVM_RBF(dataframe):
     X_new_counts = vec.transform(data_samples)
     X_new_tfidf = idf.transform(X_new_counts)
 
-    dataframe['predict'] = pd.DataFrame({'predict': model.predict(X_new_tfidf)})
+    dataframe['predict'] = pd.DataFrame({'predict': model_svm.predict(X_new_tfidf)})
     y_test = dataframe.emotion.astype(np.int64)
     predict = dataframe.predict
     
@@ -65,6 +69,28 @@ def clasification_SVM_RBF(dataframe):
     
     return dataframe, convertToDict(dataframe) , accuracy , conf, report   
 
+def clasification_MLP(dataframe):
+    tfidf_transformer = TfidfTransformer()
+    count_vect = CountVectorizer()
+
+    data_samples = dataframe.text
+
+    X_new_counts = vec.transform(data_samples)
+    X_new_tfidf = idf.transform(X_new_counts)
+
+    dataframe['predict'] = pd.DataFrame({'predict': model_mlp.predict(X_new_tfidf)})
+    y_test = dataframe.emotion.astype(np.int64)
+    predict = dataframe.predict
+    
+    dataframe['state'] = np.where(y_test == predict, 'matched', 'unmatched')
+    accuracy_MLP = accuracy_score(y_test, predict)
+    accuracy_MLP = 100 * accuracy_MLP
+    conf = confusion_matrix(y_test, predict)
+    report = classification_report(y_test, predict)
+
+    return dataframe, convertToDict(dataframe), accuracy_MLP, conf, report 
+
+
 def convertToDict(tweet):
     tweets = []  
     for i in range(len(tweet)):
@@ -76,6 +102,7 @@ def convertToDict(tweet):
         obj['state'] = tweet.loc[i]['state']
         #print tweet.iloc[i]['text']
         tweets.append(obj)
+
     return tweets
 
 def GraphsViewBar(request):
@@ -108,7 +135,7 @@ def analyzeInput(text):
     X_new_counts = vec.transform(tweet)
     X_new_tfidf = idf.transform(X_new_counts)
 
-    predict = model.predict(X_new_tfidf)
+    predict = model_svm.predict(X_new_tfidf)
 
     #accuracy = accuracy_score(y_test, predict)
     #accuracy = 100 * accuracy
@@ -148,7 +175,7 @@ def evaluasiPerKelas(tweet):
 
     listTweet = tweet['predict'].astype(np.int64)
 
-    print listTweet
+    #print listTweet
 
     for pair in listTweet:
         if (pair == 0):
@@ -167,7 +194,7 @@ def evaluasiPerKelas(tweet):
     total = totJoy + totFear + totAnger + totSadness + totDisgust + totSurprise
 
     if(total > 0):
-        return [round(100*(totJoy/total),6),round(100*(totFear/total),6),round(100*(totAnger/total),6),round(100*(totSadness/total),6),round(100*(totDisgust/total),6),round(100*(totSurprise/total),6)]
+        return [round(100*(totJoy/total),6),round(100*(totFear/total),6),round(100*(totAnger/total),6),round(100*(totSadness/total),6),round(100*(totDisgust/total),6),round(100*(totSurprise/total),6)] , [int(totJoy) , int(totFear) , int(totAnger) , int(totSadness) , int(totDisgust) , int(totSurprise)] , int(total)
     else:
         return ["N/A","N/A","N/A","N/A","N/A","N/A"]
 
