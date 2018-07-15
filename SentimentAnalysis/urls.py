@@ -4,7 +4,8 @@ from Algo import Classify
 
 urlpatterns = [
     url(r'^$', views.upload, name='upload'),
+    
     #url(r'^$', views.upload, name='upload'),
-    url(r'^_Matplotlib/Bar/$', Classify.GraphsViewBar),
+    url(r'^_Matplotlib/Bar/$', Classify.showCMPlot),
     #url(r'^$', views.input, name='input')
 ]

@@ -63,9 +63,15 @@ def clasification_SVM_RBF(dataframe):
     dataframe['state'] = np.where(y_test == predict, 'matched', 'unmatched')
     accuracy = accuracy_score(y_test, predict)
     accuracy = 100 * accuracy
-    conf = confusion_matrix(y_test, predict)
+    #conf = confusion_matrix(y_test, predict)
+    y_true = y_test
+    unique_label = np.unique(y_true)
+    conf = (pd.DataFrame(confusion_matrix(y_true, predict, labels=unique_label), 
+                   index=['true:{:}'.format(x) for x in unique_label], 
+                   columns=['pred:{:}'.format(x) for x in unique_label]))
     report = classification_report(y_test, predict)
 
+    #showCMPlot()
     
     return dataframe, convertToDict(dataframe) , accuracy , conf, report   
 
@@ -85,7 +91,12 @@ def clasification_MLP(dataframe):
     dataframe['state'] = np.where(y_test == predict, 'matched', 'unmatched')
     accuracy_MLP = accuracy_score(y_test, predict)
     accuracy_MLP = 100 * accuracy_MLP
-    conf = confusion_matrix(y_test, predict)
+    #conf = confusion_matrix(y_test, predict)
+    y_true = y_test
+    unique_label = np.unique(y_true)
+    conf = (pd.DataFrame(confusion_matrix(y_true, predict, labels=unique_label), 
+                   index=['true:{:}'.format(x) for x in unique_label], 
+                   columns=['pred:{:}'.format(x) for x in unique_label]))
     report = classification_report(y_test, predict)
 
     return dataframe, convertToDict(dataframe), accuracy_MLP, conf, report 
@@ -105,7 +116,25 @@ def convertToDict(tweet):
 
     return tweets
 
-def GraphsViewBar(request):
+# def GraphsViewBar(request):
+#     f = plt.figure()
+#     x = np.arange(10)
+#     h = [0,1,2,3,5,6,4,2,1,0]
+#     plt.title('Title')
+#     plt.xlim(0, 10)
+#     plt.ylim(0, 8)
+#     plt.xlabel('x label')
+#     plt.ylabel('y label')
+#     bar1 = plt.bar(x,h,width=1.0,bottom=0,color='Green',alpha=0.65,label='Legend')
+#     plt.legend()
+#     #show = plt.show()
+#     canvas = FigureCanvasAgg(f)    
+#     response = HttpResponse(content_type='image/png')
+#     canvas.print_png(response)
+#     matplotlib.pyplot.close(f)   
+#     return response
+
+def showCMPlot(request):
     f = plt.figure()
     x = np.arange(10)
     h = [0,1,2,3,5,6,4,2,1,0]
@@ -120,7 +149,8 @@ def GraphsViewBar(request):
     canvas = FigureCanvasAgg(f)    
     response = HttpResponse(content_type='image/png')
     canvas.print_png(response)
-    matplotlib.pyplot.close(f)   
+    matplotlib.pyplot.close(f)
+
     return response
 
 def analyzeInput(text):

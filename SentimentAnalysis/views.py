@@ -10,6 +10,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 
+
+def modeling(request):
+	return render(request, 'SentimentAnalysis/modeling.html',{})
+
 def upload(request):
 	form2 = ClassifyForm()
 	form = UploadForm()
@@ -28,8 +32,6 @@ def upload(request):
 	removeDuplicate = []
 	ner = []
 	convertnegation = []
-
-
 # VARIABLES FOR SVM
 
 	accuracy = " "
@@ -77,7 +79,6 @@ def upload(request):
 	USurprise = "0"
 
 	total = "0"
-
 # VARIABLES FOR MLP
 
 	accuracy_MLP = " "
@@ -126,7 +127,9 @@ def upload(request):
 
 	total_MLP = "0"
 
-	
+	show = ""
+		
+
 	if request.method == "POST":
 		form = UploadForm(request.POST, request.FILES)
 		if form.is_valid():
@@ -134,23 +137,12 @@ def upload(request):
 			readCSV =csv.DictReader(myfile, delimiter=',')
 			dataCSV = list(readCSV)
 			df = pd.DataFrame(dataCSV, columns=['text','emotion'])
-
 # FOR SHOW ON GUI FILE UPLOADED
 			for row in dataCSV:
 				obj = {}
 		  		obj['text'] = (row['text'])
 		  		obj['emotion'] = (row['emotion'])
 				tweets.append(obj)
-				datas.append(obj)
-#PAGINATION
-			page = request.GET.get('page', 1)
-			paginator = Paginator(datas, 10)
-			try:
-				datas = paginator.page(page)
-			except PageNotAnInteger:
-				datas = paginator.page(1)
-			except EmptyPage:
-				datas = paginator.page(paginator.num_pages)
 
 #PREPROCESSING
 			
@@ -188,16 +180,16 @@ def upload(request):
 
 			normalizationDF =  pd.DataFrame(normalization)
 
-			ner=(Preprocessing.NER(normalizationDF))
+			# ner=(Preprocessing.NER(normalizationDF))
 
-			nerDF =  pd.DataFrame(ner)
+			# nerDF =  pd.DataFrame(ner)
 			
 
-			convertnegation =(Preprocessing.convertNegation(nerDF))
+			# convertnegation =(Preprocessing.convertNegation(nerDF))
 
-			convertnegationDF =  pd.DataFrame(convertnegation)
+			# convertnegationDF =  pd.DataFrame(convertnegation)
 
-			removeStopwords=(Preprocessing.removeStopwords(convertnegationDF))
+			removeStopwords=(Preprocessing.removeStopwords(normalizationDF))
 
 			removeStopwordsDF = pd.DataFrame(removeStopwords)
 
@@ -209,7 +201,6 @@ def upload(request):
 			removeDuplicate = (Preprocessing.removeDuplicate(stemmingDF))
 			
 			removeDuplicateDF =  pd.DataFrame(removeDuplicate)
-
 # CLASSIFICATION SVM			
 
 
@@ -246,7 +237,6 @@ def upload(request):
 			USadness = countUnmatched[3]
 			UDisgust = countUnmatched[4]
 			USurprise = countUnmatched[5]
-
 # CLASSIFICATION MLP
 
 			
@@ -287,15 +277,16 @@ def upload(request):
 			UDisgust_MLP = countUnmatched_MLP[4]
 			USurprise_MLP = countUnmatched_MLP[5]
 
+
+			#Classify.GraphsViewBar()
 # PREDICT ONE INPUT
 
 		form2 = ClassifyForm(request.POST)
 		if form2.is_valid():
 			text, URL = Classify.analyzeInput(form2.cleaned_data['text'])
+	return render(request, 'SentimentAnalysis/evaluation.html',{
+		#'show': show,
 
-
-		
-	return render(request, 'SentimentAnalysis/index.html',{
 		'ClassifyForm':form2,
 		'UploadForm': form,
 
@@ -328,7 +319,6 @@ def upload(request):
 		'text_MLP':text_MLP,
 
 		'datas':datas,
-		
 # MLP
 		'classify_MLP' : classify_MLP,	
 		'perJoy_MLP' : perJoy_MLP,
@@ -357,7 +347,6 @@ def upload(request):
 		'UDisgust_MLP' : UDisgust_MLP,
 		'USurprise_MLP' : USurprise_MLP,
 		'total_MLP' : total_MLP,
-
 # SVM
 		'classify' : classify,
 		'perJoy' : perJoy,
